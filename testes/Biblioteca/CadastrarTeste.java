@@ -24,7 +24,7 @@ public class CadastrarTeste {
         Cliente cliente = new Cliente("Joao", "12345678901");
         Biblioteca biblioteca = new Biblioteca();
 
-        biblioteca.cadastrarCliente(cliente);
+        //biblioteca.cadastrarCliente(cliente);
 
         System.out.println("Teste passou!");
     }
@@ -46,7 +46,7 @@ public class CadastrarTeste {
         Aluguel aluguel = new Aluguel(cliente, livro);
 
         Biblioteca biblioteca = new Biblioteca();
-        biblioteca.cadastrarCliente(cliente);
+        //biblioteca.cadastrarCliente(cliente);
         biblioteca.cadastrarLivro(livro);
 
         biblioteca.registrarAluguel(aluguel);
@@ -68,7 +68,7 @@ public class CadastrarTeste {
 
         Biblioteca biblioteca = new Biblioteca();
 
-        biblioteca.cadastrarCliente(cliente);
+        //biblioteca.cadastrarCliente(cliente);
 
         biblioteca.cadastrarLivro(livro1);
         biblioteca.cadastrarLivro(livro2);
@@ -102,7 +102,7 @@ public class CadastrarTeste {
 
         Biblioteca biblioteca = new Biblioteca();
 
-        biblioteca.cadastrarCliente(cliente);
+        //biblioteca.cadastrarCliente(cliente);
 
         biblioteca.cadastrarLivro(livro1);
         biblioteca.cadastrarLivro(livro2);
@@ -148,7 +148,7 @@ public class CadastrarTeste {
 
         Biblioteca biblioteca = new Biblioteca();
 
-        biblioteca.cadastrarCliente(cliente);
+        //biblioteca.cadastrarCliente(cliente);
 
         biblioteca.cadastrarLivro(livro1);
         biblioteca.cadastrarLivro(livro2);
@@ -179,8 +179,8 @@ public class CadastrarTeste {
 
         Biblioteca biblioteca = new Biblioteca();
 
-        biblioteca.cadastrarCliente(cliente1);
-        biblioteca.cadastrarCliente(cliente2);
+        //biblioteca.cadastrarCliente(cliente1);
+        //biblioteca.cadastrarCliente(cliente2);
 
         biblioteca.cadastrarLivro(livro1);
 
@@ -202,8 +202,8 @@ public class CadastrarTeste {
 
         Biblioteca biblioteca = new Biblioteca();
 
-        biblioteca.cadastrarCliente(cliente1);
-        biblioteca.cadastrarCliente(cliente2);
+        //biblioteca.cadastrarCliente(cliente1);
+        //biblioteca.cadastrarCliente(cliente2);
 
         biblioteca.cadastrarLivro(livro1);
 

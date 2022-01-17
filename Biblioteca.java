@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Biblioteca extends BaseClass
 {
@@ -57,12 +58,21 @@ public class Biblioteca extends BaseClass
         }
     }
 
-    public void cadastrarCliente(Cliente cliente)
+    public void cadastrarCliente() throws Exception
     {
-        if (this.clienteJaCadastrado(cliente)) {
-            this.output("Cliente já cadastrado.");
-            return;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("CPF: ");
+        String cpf = scanner.nextLine();
+
+        if (this.clienteJaCadastrado(cpf)) {
+            throw new Exception("Cliente já cadastrado.");
         }
+
+        System.out.println("Nome: ");
+        String nome = scanner.nextLine();
+
+        Cliente cliente = new Cliente(cpf, nome);
 
         this.clientes.add(cliente);
         this.output("Cliente de cpf: " + cliente.cpf() + " cadastrado com sucesso!");
@@ -89,9 +99,10 @@ public class Biblioteca extends BaseClass
     public void registrarAluguel(Aluguel aluguel)
     {
         Cliente cliente = aluguel.cliente();
+        String cpf = cliente.cpf();
         Livro livro = aluguel.livro();
 
-        if (!this.clienteJaCadastrado(cliente)) {
+        if (!this.clienteJaCadastrado(cpf)) {
             this.output("Falha na locaçao. Cliente nao cadastrado.");
             return;
         }
@@ -161,15 +172,22 @@ public class Biblioteca extends BaseClass
      * @param maxData dd-mm-yyyy
      * @param cliente
      */
-    public void listarAlugueisPorDataCliente(String minData, String maxData, Cliente cliente)
+
+    public void listarAlugueisPorDataCliente(String minData, String maxData, Cliente cliente) throws Exception
     {
 
-        for (Aluguel aluguel : this.alugueis) {
-            //if (aluguel.getData() >= minData && aluguel.getData() <= maxData) {
-              //  aluguel.dadosFormatados();
-            //}
+        SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");
+
+        Date minDataCovertida = formatador.parse(minData);
+        Date maxDataConvertida = formatador.parse(maxData);
+
+        for (Aluguel aluguel: this.alugueis) {
+            if ((aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida)) && aluguel.cliente() == cliente) {
+                aluguel.dadosFormatados();
+            }
         }
     }
+
 
     /**
      *
@@ -177,15 +195,25 @@ public class Biblioteca extends BaseClass
      * @param maxData dd-mm-yyyy
      * @param livro
      */
-    public void listarAlugueisPorDataLivro(String minData, String maxData, Livro livro)
+    public void listarAlugueisPorDataLivro(String minData, String maxData, Livro livro) throws Exception
     {
 
+        SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");
+
+        Date minDataCovertida = formatador.parse(minData);
+        Date maxDataConvertida = formatador.parse(maxData);
+
+        for (Aluguel aluguel: this.alugueis) {
+            if ((aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida)) && aluguel.livro() == livro) {
+                aluguel.dadosFormatados();
+            }
+        }
     }
 
-    private boolean clienteJaCadastrado(Cliente cliente)
+    private boolean clienteJaCadastrado(String cpf)
     {
         for (Cliente clienteCadastrado : this.clientes) {
-            if (clienteCadastrado.cpf() == cliente.cpf()) {
+            if (clienteCadastrado.cpf() == cpf) {
                 return true;
             }
         }

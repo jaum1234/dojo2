@@ -37,7 +37,7 @@ public class RemoverTeste {
 
         Biblioteca biblioteca = new Biblioteca();
 
-        biblioteca.cadastrarCliente(cliente1);
+        //biblioteca.cadastrarCliente(cliente1);
         //biblioteca.listarClientes();
 
         biblioteca.removerCliente(cliente1);
@@ -54,7 +54,7 @@ public class RemoverTeste {
 
         Biblioteca biblioteca = new Biblioteca();
 
-        biblioteca.cadastrarCliente(cliente1);
+        //biblioteca.cadastrarCliente(cliente1);
         biblioteca.cadastrarLivro(livro1);
 
         biblioteca.registrarAluguel(aluguel1);
@@ -73,7 +73,7 @@ public class RemoverTeste {
 
         Biblioteca biblioteca = new Biblioteca();
 
-        biblioteca.cadastrarCliente(cliente1);
+        //biblioteca.cadastrarCliente(cliente1);
         //biblioteca.listarClientes();
         biblioteca.cadastrarLivro(livro1);
 
@@ -103,9 +103,9 @@ public class RemoverTeste {
 
         Biblioteca biblioteca = new Biblioteca();
 
-        biblioteca.cadastrarCliente(cliente);
-        biblioteca.cadastrarCliente(cliente2);
-        biblioteca.cadastrarCliente(cliente3);
+        //biblioteca.cadastrarCliente(cliente);
+        //biblioteca.cadastrarCliente(cliente2);
+        //biblioteca.cadastrarCliente(cliente3);
 
         biblioteca.cadastrarLivro(livro);
         biblioteca.cadastrarLivro(livro2);

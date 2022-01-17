@@ -1,6 +1,6 @@
-package dojo2;
+package src.dojo2;
 
-public class Livro
+public class Livro extends BaseClass
 {
     private static int id = 0;
     private int livroId;
@@ -8,6 +8,8 @@ public class Livro
     private String autor;
     private String editora;
     private String dataPublicaçao;
+    private boolean emLocacao;
+    private Cliente cliente;
 
     public Livro(String titulo, String autor, String editora, String dataPublicaçao)
     {
@@ -17,26 +19,39 @@ public class Livro
         this.autor = autor;
         this.editora = editora;
         this.dataPublicaçao = dataPublicaçao;
+        this.emLocacao = false;
     }
 
-    public int getLivroId() {
-        return livroId;
+    public int id()
+    {
+        return this.livroId;
+    }
+    public boolean emLocacao()
+    {
+        return this.emLocacao;
     }
 
-    public String getAutor() {
-        return autor;
+    public void entrarEmLocacao(Cliente cliente) throws Exception
+    {
+        if (this.emLocacao) {
+            throw new Exception("Livro de id " + this.livroId + " já está em locaçao");
+        }
+
+        this.cliente = cliente;
+        this.emLocacao = true;
     }
 
-    public String getDataPublicaçao() {
-        return dataPublicaçao;
+    public void sairDaLocacao(Cliente cliente) {
+        this.emLocacao = false;
     }
 
-    public String getEditora() {
-        return editora;
-    }
-
-    public String getTitulo() {
-        return titulo;
+    public void dadosFormatados()
+    {
+        this.output("Titulo: " + this.titulo);
+        this.output("Autor: " + this.autor);
+        this.output("Editora: " + this.editora);
+        this.output("Data de publicaçao: " + this.dataPublicaçao);
+        this.output("");
     }
 }
 

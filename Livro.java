@@ -2,8 +2,7 @@ package src.dojo2;
 
 public class Livro extends BaseClass
 {
-    private static int id = 0;
-    private int livroId;
+    private int id;
     private String titulo;
     private String autor;
     private String editora;
@@ -11,10 +10,9 @@ public class Livro extends BaseClass
     private boolean emLocacao;
     private Cliente cliente;
 
-    public Livro(String titulo, String autor, String editora, String dataPublicaçao)
+    public Livro(int id, String titulo, String autor, String editora, String dataPublicaçao)
     {
-        this.id++;
-        this.livroId = this.id;
+        this.id = id;
         this.titulo = titulo;
         this.autor = autor;
         this.editora = editora;
@@ -24,7 +22,7 @@ public class Livro extends BaseClass
 
     public int id()
     {
-        return this.livroId;
+        return this.id;
     }
     public boolean emLocacao()
     {
@@ -34,7 +32,7 @@ public class Livro extends BaseClass
     public void entrarEmLocacao(Cliente cliente) throws Exception
     {
         if (this.emLocacao) {
-            throw new Exception("Livro de id " + this.livroId + " já está em locaçao");
+            throw new Exception("Livro de id " + this.id + " já está em locaçao");
         }
 
         this.cliente = cliente;

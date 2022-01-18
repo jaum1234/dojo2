@@ -9,27 +9,50 @@ import java.util.Scanner;
 
 public class Biblioteca extends BaseClass
 {
-    ArrayList<Livro> livros;
-    ArrayList<Cliente> clientes;
-    ArrayList<Aluguel> alugueis;
+    private ArrayList<Livro> livros;
+    private ArrayList<Cliente> clientes;
+    private ArrayList<Aluguel> alugueis;
+    private Scanner scanner;
 
     public Biblioteca() {
         this.livros = new ArrayList<Livro>();
         this.clientes = new ArrayList<Cliente>();
         this.alugueis = new ArrayList<Aluguel>();
+        this.scanner = new Scanner(System.in);
     }
 
-    public void cadastrarLivro(Livro livro) {
+    public void cadastrarLivro() throws Exception
+    {
 
         if (this.atingiuLimiteLivros()) {
             System.out.println("A biblioteca só pode cadastrar no máximo 1000 livros.");
             return;
         }
 
-        if (this.livroJaCadastrado(livro)) {
-            System.out.println("Livro já cadastrado.");
-            return;
+        System.out.println("Id: ");
+        int id = scanner.nextInt();
+
+        if (this.livroJaCadastrado(id)) {
+            throw new Exception("Livro já cadastrado");
         }
+
+        scanner.nextLine();
+
+        System.out.println("Título: ");
+        String titulo = scanner.nextLine();
+
+        System.out.println("Autor: ");
+        String autor = scanner.nextLine();
+
+        System.out.println("editora: ");
+        String editora = scanner.nextLine();
+
+
+        System.out.println("Data de publicaçao: ");
+        String dataPublicacao = scanner.nextLine();
+
+        Livro livro = new Livro(id, titulo, autor, editora, dataPublicacao);
+
 
         this.livros.add(livro);
         this.output("Livro de id: " + livro.id() + " cadastrado com sucesso!");
@@ -40,10 +63,15 @@ public class Biblioteca extends BaseClass
         return this.livros.size() > 1000;
     }
 
-    public void removerLivro(Livro livro) {
+    public void removerLivro() throws Exception
+    {
+        System.out.println("Id no livro a ser removido: ");
+        int id = scanner.nextInt();
+
+        Livro livro = this.buscarLivro(id);
+
         if (livro.emLocacao()) {
-            System.out.println("Voce nao pode remover o livro de id " + livro.id() + ". Ele esta em locaçao.");
-            return;
+            throw new Exception("Voce nao pode remover o livro de id " + livro.id() + ". Ele esta em locaçao.");
         }
 
         this.livros.remove(livro);
@@ -60,8 +88,6 @@ public class Biblioteca extends BaseClass
 
     public void cadastrarCliente() throws Exception
     {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.println("CPF: ");
         String cpf = scanner.nextLine();
 
@@ -72,17 +98,21 @@ public class Biblioteca extends BaseClass
         System.out.println("Nome: ");
         String nome = scanner.nextLine();
 
-        Cliente cliente = new Cliente(cpf, nome);
+        Cliente cliente = new Cliente(nome, cpf);
 
         this.clientes.add(cliente);
         this.output("Cliente de cpf: " + cliente.cpf() + " cadastrado com sucesso!");
     }
 
-    public void removerCliente(Cliente cliente)
+    public void removerCliente() throws Exception
     {
+        System.out.println("CPF do cliente a ser removido: ");
+        String cpf = scanner.nextLine();
+
+        Cliente cliente = this.buscarCliente(cpf);
+
         if (cliente.numAlugueisEmCurso() > 0) {
-            this.output("O cliente de cpf " + cliente.cpf() + " nao pode ser removido. Ele esta em locaçao.");
-            return;
+            throw new Exception("O cliente de cpf " + cliente.cpf() + " nao pode ser removido. Ele esta em locaçao.");
         }
 
         this.clientes.remove(cliente);
@@ -96,44 +126,86 @@ public class Biblioteca extends BaseClass
         }
     }
 
-    public void registrarAluguel(Aluguel aluguel)
+    public void registrarAluguel() throws Exception
     {
-        Cliente cliente = aluguel.cliente();
-        String cpf = cliente.cpf();
-        Livro livro = aluguel.livro();
+        System.out.println("Id do livro a ser alocado: ");
+        int id = scanner.nextInt();
+
+        if (!this.livroJaCadastrado(id)) {
+            throw new Exception("Falha na locaçao. Livro nao cadastrado.");
+        }
+        scanner.nextLine();
+
+        System.out.println("CPF do cliente a realiazar a locaçao: ");
+        String cpf = scanner.nextLine();
 
         if (!this.clienteJaCadastrado(cpf)) {
-            this.output("Falha na locaçao. Cliente nao cadastrado.");
-            return;
+            throw new Exception("Falha na locaçao. Cliente nao cadastrado.");
         }
 
-        if (!this.livroJaCadastrado(livro)) {
-            this.output("Falha na locaçao. Livro nao cadastrado.");
-            return;
-        }
+        Cliente cliente = buscarCliente(cpf);
+        Livro livro = buscarLivro(id);
 
-        try {
-            cliente.alugar(livro);
-            livro.entrarEmLocacao(cliente);
-        } catch (Exception e) {
-            this.output(e.getMessage());
-            return;
-        }
+        cliente.alugar(livro);
+        livro.entrarEmLocacao(cliente);
 
-        aluguel.setData();
+
+        Aluguel aluguel = new Aluguel(cliente, livro);
+
         this.alugueis.add(aluguel);
         this.output("Aluguel de id: " + aluguel.id() + " registrado e validado com sucesso!");
     }
 
-    public void removerAluguel(Aluguel aluguel) throws Exception
+    public Cliente buscarCliente(String cpf) throws Exception
     {
+        int posicaoCliente;
+        for (Cliente clienteCadastrado: this.clientes) {
+            if (clienteCadastrado.cpf().equals(cpf)) {
+                posicaoCliente = this.clientes.indexOf(clienteCadastrado);
+
+                return this.clientes.get(posicaoCliente);
+            }
+        }
+        throw new Exception("Cliente nao encontrado.");
+    }
+
+    public Livro buscarLivro(int id) throws Exception
+    {
+        int posicaoLivro;
+        for (Livro livroCadastrado: this.livros) {
+            if (livroCadastrado.id() == id) {
+                posicaoLivro = this.livros.indexOf(livroCadastrado);
+                return this.livros.get(posicaoLivro);
+            }
+        }
+        throw new Exception("Livro nao encontrado.");
+    }
+
+    public Aluguel buscarAluguel(int id) throws Exception
+    {
+        int posicaoAluguel;
+        for (Aluguel aluguelRegistrado: this.alugueis) {
+            if (aluguelRegistrado.id() == id) {
+                posicaoAluguel = this.alugueis.indexOf(aluguelRegistrado);
+                return this.alugueis.get(posicaoAluguel);
+            }
+        }
+        throw new Exception("Aluguel nao encontrado.");
+    }
+
+    public void removerAluguel() throws Exception
+    {
+        System.out.println("Id do aluguel a ser removido: ");
+        int id = scanner.nextInt();
+
+        Aluguel aluguel = this.buscarAluguel(id);
+
         if (!this.alugueis.contains(aluguel)) {
             this.output("O aluguel nao pode ser removido pois ainda foi registrado e validado na biblioteca.");
             return;
         }
 
         aluguel.encerrar();
-        this.alugueis.remove(aluguel);
 
         this.output("Aluguel de id: " + aluguel.id() + " finalizado.");
     }
@@ -213,17 +285,17 @@ public class Biblioteca extends BaseClass
     private boolean clienteJaCadastrado(String cpf)
     {
         for (Cliente clienteCadastrado : this.clientes) {
-            if (clienteCadastrado.cpf() == cpf) {
+            if (clienteCadastrado.cpf().equals(cpf)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean livroJaCadastrado(Livro livro)
+    private boolean livroJaCadastrado(int id)
     {
         for (Livro livroCadastrado : this.livros) {
-            if (livroCadastrado.id() == livro.id()) {
+            if (livroCadastrado.id() == id) {
                 return true;
             }
         }

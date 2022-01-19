@@ -1,5 +1,7 @@
 package src.dojo2;
 
+import src.dojo2.menu.Menu;
+
 public class Main
 {
 

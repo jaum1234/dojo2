@@ -1,4 +1,6 @@
-package src.dojo2;
+package src.dojo2.entidades;
+
+import src.dojo2.BaseClass;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,10 +41,14 @@ public class Aluguel extends BaseClass
      * Método só deve ser chamado de dentro do método 'removerAluguel'
      * na classe Biblioteca
      *
-     * @see src.dojo2.Biblioteca#removerAluguel()
+     * @see Biblioteca#removerAluguel()
      */
     public void encerrar() throws Exception
     {
+        if (!this.emCurso) {
+            throw new Exception("Aluguel de id " + this.aluguelId + " já foi encerrado.");
+        }
+
         this.emCurso = false;
         this.cliente.desalugar(this.livro);
         this.livro.sairDaLocacao(this.cliente);

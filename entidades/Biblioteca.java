@@ -1,8 +1,8 @@
-package src.dojo2;
+package src.dojo2.entidades;
+
+import src.dojo2.BaseClass;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -149,7 +149,6 @@ public class Biblioteca extends BaseClass
         cliente.alugar(livro);
         livro.entrarEmLocacao(cliente);
 
-
         Aluguel aluguel = new Aluguel(cliente, livro);
 
         this.alugueis.add(aluguel);
@@ -231,6 +230,8 @@ public class Biblioteca extends BaseClass
         Date minDataCovertida = formatador.parse(minData);
         Date maxDataConvertida = formatador.parse(maxData);
 
+        System.out.println("Alugueis listados entre " + minDataCovertida + " e " + maxDataConvertida);
+
         for (Aluguel aluguel: this.alugueis) {
             if (aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida)) {
                 aluguel.dadosFormatados();
@@ -253,6 +254,8 @@ public class Biblioteca extends BaseClass
         Date minDataCovertida = formatador.parse(minData);
         Date maxDataConvertida = formatador.parse(maxData);
 
+        System.out.println("Alugueis listados entre " + minDataCovertida + " e " + maxDataConvertida + " do cliente de cpf" + cliente.cpf());
+
         for (Aluguel aluguel: this.alugueis) {
             if ((aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida)) && aluguel.cliente() == cliente) {
                 aluguel.dadosFormatados();
@@ -274,6 +277,8 @@ public class Biblioteca extends BaseClass
 
         Date minDataCovertida = formatador.parse(minData);
         Date maxDataConvertida = formatador.parse(maxData);
+
+        System.out.println("Alugueis listados entre " + minDataCovertida + " e " + maxDataConvertida + " do livro de id " + livro.id());
 
         for (Aluguel aluguel: this.alugueis) {
             if ((aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida)) && aluguel.livro() == livro) {

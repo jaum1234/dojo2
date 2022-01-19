@@ -1,4 +1,6 @@
-package src.dojo2;
+package src.dojo2.entidades;
+
+import src.dojo2.BaseClass;
 
 public class Livro extends BaseClass
 {
@@ -39,7 +41,12 @@ public class Livro extends BaseClass
         this.emLocacao = true;
     }
 
-    public void sairDaLocacao(Cliente cliente) {
+    public void sairDaLocacao(Cliente cliente) throws Exception
+    {
+        if (this.cliente != cliente) {
+            throw new Exception("Cliente nao está associdado a esse livro.");
+        }
+
         this.emLocacao = false;
     }
 

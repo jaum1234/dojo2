@@ -1,6 +1,10 @@
 package src.dojo2;
 
-abstract public class BaseClass {
+import java.util.Scanner;
+
+abstract public class BaseClass
+{
+    protected static Scanner scanner = new Scanner(System.in);
 
     protected void output(String output)
     {

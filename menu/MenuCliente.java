@@ -2,7 +2,6 @@ package src.dojo2.menu;
 
 public class MenuCliente extends Menu
 {
-
     protected static void render() throws Exception
     {
         System.out.println("1. Cadastrar cliente");

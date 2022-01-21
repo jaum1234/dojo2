@@ -1,11 +1,12 @@
 package src.dojo2.entidades;
 
 import src.dojo2.BaseClass;
+import src.dojo2.interfaces.Buscavel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Aluguel extends BaseClass
+public class Aluguel extends BaseClass implements Buscavel
 {
     private static int id = 0;
     private int aluguelId;
@@ -22,11 +23,9 @@ public class Aluguel extends BaseClass
         this.livro = livro;
         this.data = new Date();
         this.emCurso = true;
-
-        this.output("Aluguel de id " + this.aluguelId + " criado! Para ser validado, precisa ser registrado na biblioteca.");
     }
 
-    public int id()
+    public int idetificador()
     {
         return this.aluguelId;
     }
@@ -49,9 +48,9 @@ public class Aluguel extends BaseClass
             throw new Exception("Aluguel de id " + this.aluguelId + " já foi encerrado.");
         }
 
-        this.emCurso = false;
         this.cliente.desalugar(this.livro);
         this.livro.sairDaLocacao(this.cliente);
+        this.emCurso = false;
     }
 
     public Cliente cliente()
@@ -69,7 +68,8 @@ public class Aluguel extends BaseClass
         SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");
         String dataFormatada = formatador.format(this.data);
 
-        this.output("Id: " + this.aluguelId);
+        this.output("Id do aluguel" +
+                ": " + this.aluguelId);
         this.output("Data de realizaçao do aluguel: " + dataFormatada + "\n");
 
         if (this.emCurso) {
@@ -77,7 +77,6 @@ public class Aluguel extends BaseClass
         } else {
             this.output("Status: finalizado");
         }
-
 
         this.output("CLIENTE:");
         this.cliente.dadosFormatados();

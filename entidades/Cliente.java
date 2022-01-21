@@ -1,36 +1,33 @@
 package src.dojo2.entidades;
 
 import src.dojo2.BaseClass;
+import src.dojo2.interfaces.Buscavel;
 
 import java.util.ArrayList;
 
-public class Cliente extends BaseClass
+public class Cliente extends BaseClass implements Buscavel
 {
-    private static int id = 0;
-    private int clienteId;
     private String nome;
     private String cpf;
-    private int numAlugueisEmCurso;
+    private ArrayList<Livro> alugueisEmCurso;
     private ArrayList<Livro> historicoLivrosAlugados;
 
     public Cliente(String nome, String cpf)
     {
-        this.id++;
-        this.clienteId = this.id;
         this.nome = nome;
         this.cpf = cpf;
-        this.numAlugueisEmCurso = 0;
+        this.alugueisEmCurso = new ArrayList<Livro>();
         this.historicoLivrosAlugados = new ArrayList<Livro>();
     }
 
-    public String cpf()
+    public String identificador()
     {
         return cpf;
     }
 
     public int numAlugueisEmCurso()
     {
-        return this.numAlugueisEmCurso;
+        return this.alugueisEmCurso.size();
     }
 
     /**
@@ -47,23 +44,23 @@ public class Cliente extends BaseClass
         }
 
         if (this.estaEntreOsUltimos3livrosAlugados(livro)) {
-            throw new Exception("O livro de id: " + livro.id() + " esta entre os ultimos 3 livros alugados pelo usuário.");
+            throw new Exception("O livro de id: " + livro.identificador() + " esta entre os ultimos 3 livros alugados pelo usuário.");
         }
 
         this.historicoLivrosAlugados.add(livro);
-        this.numAlugueisEmCurso++;
+        this.alugueisEmCurso.add(livro);
     }
 
     private boolean possuiMaisDe2AlugueisEmCurso()
     {
-        return this.numAlugueisEmCurso >= 2;
+        return this.alugueisEmCurso.size() >= 2;
     }
 
     private boolean estaEntreOsUltimos3livrosAlugados(Livro livro)
     {
         if (this.historicoLivrosAlugados.size() < 3) {
             for (Livro livroAlugado: this.historicoLivrosAlugados) {
-                if (livro.id() == livroAlugado.id()) {
+                if (livro.identificador() == livroAlugado.identificador()) {
                     return true;
                 }
             }
@@ -72,7 +69,7 @@ public class Cliente extends BaseClass
             int ultimoLivro = this.historicoLivrosAlugados.size() - 1;
 
             for (int i = antepenultimoLivro; i <= ultimoLivro; i++) {
-                if (this.historicoLivrosAlugados.get(i).id() == livro.id()) {
+                if (this.historicoLivrosAlugados.get(i).identificador() == livro.identificador()) {
                     return true;
                 }
             }
@@ -88,10 +85,10 @@ public class Cliente extends BaseClass
      */
     public void desalugar(Livro livro) throws  Exception
     {
-        if (!this.historicoLivrosAlugados.contains(livro)) {
+        if (!this.alugueisEmCurso.contains(livro)) {
             throw new Exception("Livro nao pertence ao cliente de cpf " + this.cpf);
         }
-        this.numAlugueisEmCurso--;
+        this.alugueisEmCurso.remove(livro);
     }
 
     public void dadosFormatados()

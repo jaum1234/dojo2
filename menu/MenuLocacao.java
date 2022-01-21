@@ -88,7 +88,7 @@ public class MenuLocacao extends Menu
     {
         System.out.println("Forneça o cpf do cliente: ");
         scanner.nextLine();
-        String cpf = scanner.nextLine();
+        int cpf = scanner.nextInt();
 
         Cliente cliente;
 

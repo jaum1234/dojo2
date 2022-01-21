@@ -1,32 +1,30 @@
 package src.dojo2.entidades;
 
 import src.dojo2.BaseClass;
+import src.dojo2.interfaces.Buscavel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
 
 public class Biblioteca extends BaseClass
 {
     private ArrayList<Livro> livros;
     private ArrayList<Cliente> clientes;
     private ArrayList<Aluguel> alugueis;
-    private Scanner scanner;
 
-    public Biblioteca() {
+    public Biblioteca()
+    {
         this.livros = new ArrayList<Livro>();
         this.clientes = new ArrayList<Cliente>();
         this.alugueis = new ArrayList<Aluguel>();
-        this.scanner = new Scanner(System.in);
     }
 
     public void cadastrarLivro() throws Exception
     {
 
         if (this.atingiuLimiteLivros()) {
-            System.out.println("A biblioteca só pode cadastrar no máximo 1000 livros.");
-            return;
+            throw new Exception("A biblioteca só pode cadastrar no máximo 1000 livros.");
         }
 
         System.out.println("Id: ");
@@ -55,27 +53,28 @@ public class Biblioteca extends BaseClass
 
 
         this.livros.add(livro);
-        this.output("Livro de id: " + livro.id() + " cadastrado com sucesso!");
+        this.output("Livro de id: " + livro.identificador() + " cadastrado com sucesso!");
     }
 
     private boolean atingiuLimiteLivros()
     {
-        return this.livros.size() > 1000;
+        return this.livros.size() >= 1000;
     }
 
     public void removerLivro() throws Exception
     {
         System.out.println("Id no livro a ser removido: ");
         int id = scanner.nextInt();
+        scanner.nextLine();
 
         Livro livro = this.buscarLivro(id);
 
         if (livro.emLocacao()) {
-            throw new Exception("Voce nao pode remover o livro de id " + livro.id() + ". Ele esta em locaçao.");
+            throw new Exception("Voce nao pode remover o livro de id " + livro.identificador() + ". Ele esta em locaçao.");
         }
 
         this.livros.remove(livro);
-        System.out.println("Livro de id " + livro.id() + " removido com sucesso.");
+        System.out.println("Livro de id " + livro.identificador() + " removido com sucesso.");
     }
 
     public void listarLivros() {
@@ -89,7 +88,8 @@ public class Biblioteca extends BaseClass
     public void cadastrarCliente() throws Exception
     {
         System.out.println("CPF: ");
-        String cpf = scanner.nextLine();
+        int cpf = scanner.nextInt();
+        scanner.nextLine();
 
         if (this.clienteJaCadastrado(cpf)) {
             throw new Exception("Cliente já cadastrado.");
@@ -98,25 +98,27 @@ public class Biblioteca extends BaseClass
         System.out.println("Nome: ");
         String nome = scanner.nextLine();
 
-        Cliente cliente = new Cliente(nome, cpf);
+        String cpfStr = Integer.toString(cpf);
+        Cliente cliente = new Cliente(nome, cpfStr);
 
         this.clientes.add(cliente);
-        this.output("Cliente de cpf: " + cliente.cpf() + " cadastrado com sucesso!");
+        this.output("Cliente de cpf: " + cliente.identificador() + " cadastrado com sucesso!");
     }
 
     public void removerCliente() throws Exception
     {
         System.out.println("CPF do cliente a ser removido: ");
-        String cpf = scanner.nextLine();
+        int cpf = scanner.nextInt();
+        scanner.nextLine();
 
         Cliente cliente = this.buscarCliente(cpf);
 
         if (cliente.numAlugueisEmCurso() > 0) {
-            throw new Exception("O cliente de cpf " + cliente.cpf() + " nao pode ser removido. Ele esta em locaçao.");
+            throw new Exception("O cliente de cpf " + cliente.identificador() + " nao pode ser removido. Ele esta em locaçao.");
         }
 
         this.clientes.remove(cliente);
-        this.output("Cliente de cpf " + cliente.cpf() + " removido com sucesso.");
+        this.output("Cliente de cpf " + cliente.identificador() + " removido com sucesso.");
     }
 
     public void listarClientes() {
@@ -137,7 +139,7 @@ public class Biblioteca extends BaseClass
         scanner.nextLine();
 
         System.out.println("CPF do cliente a realiazar a locaçao: ");
-        String cpf = scanner.nextLine();
+        int cpf = scanner.nextInt();
 
         if (!this.clienteJaCadastrado(cpf)) {
             throw new Exception("Falha na locaçao. Cliente nao cadastrado.");
@@ -152,13 +154,26 @@ public class Biblioteca extends BaseClass
         Aluguel aluguel = new Aluguel(cliente, livro);
 
         this.alugueis.add(aluguel);
-        this.output("Aluguel de id: " + aluguel.id() + " registrado e validado com sucesso!");
+        this.output("Aluguel de id: " + aluguel.idetificador() + " registrado com sucesso!");
     }
 
-    public Cliente buscarCliente(String cpf) throws Exception
+    public Cliente buscarCliente(int cpf) throws Exception
     {
         int posicaoCliente;
         for (Cliente clienteCadastrado: this.clientes) {
+            if (clienteCadastrado.identificador().equals(cpf)) {
+                posicaoCliente = this.clientes.indexOf(clienteCadastrado);
+
+                return this.clientes.get(posicaoCliente);
+            }
+        }
+        throw new Exception("Cliente nao encontrado.");
+    }
+
+    public Buscavel buscar(int identificador)
+    {
+        int posicao;
+        for (Buscavel item: this.clientes) {
             if (clienteCadastrado.cpf().equals(cpf)) {
                 posicaoCliente = this.clientes.indexOf(clienteCadastrado);
 
@@ -172,7 +187,7 @@ public class Biblioteca extends BaseClass
     {
         int posicaoLivro;
         for (Livro livroCadastrado: this.livros) {
-            if (livroCadastrado.id() == id) {
+            if (livroCadastrado.identificador() == id) {
                 posicaoLivro = this.livros.indexOf(livroCadastrado);
                 return this.livros.get(posicaoLivro);
             }
@@ -184,7 +199,7 @@ public class Biblioteca extends BaseClass
     {
         int posicaoAluguel;
         for (Aluguel aluguelRegistrado: this.alugueis) {
-            if (aluguelRegistrado.id() == id) {
+            if (aluguelRegistrado.idetificador() == id) {
                 posicaoAluguel = this.alugueis.indexOf(aluguelRegistrado);
                 return this.alugueis.get(posicaoAluguel);
             }
@@ -206,7 +221,7 @@ public class Biblioteca extends BaseClass
 
         aluguel.encerrar();
 
-        this.output("Aluguel de id: " + aluguel.id() + " finalizado.");
+        this.output("Aluguel de id: " + aluguel.idetificador() + " finalizado.");
     }
 
     public void listarTodosAlugueis()
@@ -233,7 +248,11 @@ public class Biblioteca extends BaseClass
         System.out.println("Alugueis listados entre " + minDataCovertida + " e " + maxDataConvertida);
 
         for (Aluguel aluguel: this.alugueis) {
-            if (aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida)) {
+            if (
+                (aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida))
+                ||
+                (aluguel.data().equals(minDataCovertida) && aluguel.data().equals(maxDataConvertida))
+            ) {
                 aluguel.dadosFormatados();
             }
         }
@@ -254,10 +273,13 @@ public class Biblioteca extends BaseClass
         Date minDataCovertida = formatador.parse(minData);
         Date maxDataConvertida = formatador.parse(maxData);
 
-        System.out.println("Alugueis listados entre " + minDataCovertida + " e " + maxDataConvertida + " do cliente de cpf" + cliente.cpf());
+        System.out.println("Alugueis listados entre " + minData + " e " + maxData + " do cliente de cpf" + cliente.identificador());
 
         for (Aluguel aluguel: this.alugueis) {
-            if ((aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida)) && aluguel.cliente() == cliente) {
+            if (
+                (aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida))
+                && aluguel.cliente() == cliente
+            ) {
                 aluguel.dadosFormatados();
             }
         }
@@ -278,19 +300,22 @@ public class Biblioteca extends BaseClass
         Date minDataCovertida = formatador.parse(minData);
         Date maxDataConvertida = formatador.parse(maxData);
 
-        System.out.println("Alugueis listados entre " + minDataCovertida + " e " + maxDataConvertida + " do livro de id " + livro.id());
+        System.out.println("Alugueis listados entre " + minDataCovertida + " e " + maxDataConvertida + " do livro de id " + livro.identificador());
 
         for (Aluguel aluguel: this.alugueis) {
-            if ((aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida)) && aluguel.livro() == livro) {
+            if (
+                (aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida))
+                && aluguel.livro() == livro
+            ) {
                 aluguel.dadosFormatados();
             }
         }
     }
 
-    private boolean clienteJaCadastrado(String cpf)
+    private boolean clienteJaCadastrado(int cpf)
     {
         for (Cliente clienteCadastrado : this.clientes) {
-            if (clienteCadastrado.cpf().equals(cpf)) {
+            if (clienteCadastrado.identificador().equals(cpf)) {
                 return true;
             }
         }
@@ -300,7 +325,7 @@ public class Biblioteca extends BaseClass
     private boolean livroJaCadastrado(int id)
     {
         for (Livro livroCadastrado : this.livros) {
-            if (livroCadastrado.id() == id) {
+            if (livroCadastrado.identificador() == id) {
                 return true;
             }
         }

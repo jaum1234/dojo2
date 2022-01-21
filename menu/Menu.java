@@ -1,14 +1,14 @@
 package src.dojo2.menu;
 
+import src.dojo2.BaseClass;
 import src.dojo2.entidades.Biblioteca;
 
 import java.util.Scanner;
 
-public class Menu
+public class Menu extends BaseClass
 {
     protected static int escolha;
     protected static Biblioteca biblioteca = new Biblioteca();
-    protected static Scanner scanner = new Scanner(System.in);
 
     public static void call() throws Exception
     {
@@ -19,6 +19,7 @@ public class Menu
     {
         while(true) {
             escolha = scanner.nextInt();
+            scanner.nextLine();
 
             if (escolha >= 1 && escolha <= 4) {
                 break;

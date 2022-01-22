@@ -1,13 +1,13 @@
 package src.dojo2.menu;
 
-import src.dojo2.BaseClass;
 import src.dojo2.entidades.Biblioteca;
 
 import java.util.Scanner;
 
-public class Menu extends BaseClass
+public class Menu
 {
     protected static int escolha;
+    protected static Scanner scanner = new Scanner(System.in);
     protected static Biblioteca biblioteca = new Biblioteca();
 
     public static void call() throws Exception

@@ -1,9 +1,6 @@
 package src.dojo2.entidades;
 
-import src.dojo2.BaseClass;
-import src.dojo2.interfaces.Buscavel;
-
-public class Livro extends BaseClass implements Buscavel
+public class Livro
 {
     private int id;
     private String titulo;
@@ -54,12 +51,12 @@ public class Livro extends BaseClass implements Buscavel
 
     public void dadosFormatados()
     {
-        this.output("Id: " + this.id);
-        this.output("Titulo: " + this.titulo);
-        this.output("Autor: " + this.autor);
-        this.output("Editora: " + this.editora);
-        this.output("Data de publicaçao: " + this.dataPublicaçao);
-        this.output("");
+        System.out.println("Id: " + this.id);
+        System.out.println("Titulo: " + this.titulo);
+        System.out.println("Autor: " + this.autor);
+        System.out.println("Editora: " + this.editora);
+        System.out.println("Data de publicaçao: " + this.dataPublicaçao);
+        System.out.println("");
     }
 }
 

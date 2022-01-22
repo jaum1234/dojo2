@@ -1,17 +1,17 @@
 package src.dojo2.entidades;
 
-import src.dojo2.BaseClass;
-import src.dojo2.interfaces.Buscavel;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
-public class Biblioteca extends BaseClass
+public class Biblioteca
 {
     private ArrayList<Livro> livros;
     private ArrayList<Cliente> clientes;
     private ArrayList<Aluguel> alugueis;
+
+    private Scanner scanner = new Scanner(System.in);
 
     public Biblioteca()
     {
@@ -22,7 +22,6 @@ public class Biblioteca extends BaseClass
 
     public void cadastrarLivro() throws Exception
     {
-
         if (this.atingiuLimiteLivros()) {
             throw new Exception("A biblioteca só pode cadastrar no máximo 1000 livros.");
         }
@@ -53,7 +52,7 @@ public class Biblioteca extends BaseClass
 
 
         this.livros.add(livro);
-        this.output("Livro de id: " + livro.identificador() + " cadastrado com sucesso!");
+        System.out.println("Livro de id: " + livro.identificador() + " cadastrado com sucesso!");
     }
 
     private boolean atingiuLimiteLivros()
@@ -79,7 +78,7 @@ public class Biblioteca extends BaseClass
 
     public void listarLivros() {
 
-        this.output("LISTA DE LIVROS\n");
+        System.out.println("LISTA DE LIVROS\n");
         for (Livro livro : this.livros) {
             livro.dadosFormatados();
         }
@@ -98,11 +97,10 @@ public class Biblioteca extends BaseClass
         System.out.println("Nome: ");
         String nome = scanner.nextLine();
 
-        String cpfStr = Integer.toString(cpf);
-        Cliente cliente = new Cliente(nome, cpfStr);
+        Cliente cliente = new Cliente(nome, cpf);
 
         this.clientes.add(cliente);
-        this.output("Cliente de cpf: " + cliente.identificador() + " cadastrado com sucesso!");
+        System.out.println("Cliente de cpf: " + cliente.identificador() + " cadastrado com sucesso!");
     }
 
     public void removerCliente() throws Exception
@@ -118,11 +116,11 @@ public class Biblioteca extends BaseClass
         }
 
         this.clientes.remove(cliente);
-        this.output("Cliente de cpf " + cliente.identificador() + " removido com sucesso.");
+        System.out.println("Cliente de cpf " + cliente.identificador() + " removido com sucesso.");
     }
 
     public void listarClientes() {
-       this.output("LISTA DE CLIENTES\n");
+        System.out.println("LISTA DE CLIENTES\n");
         for (Cliente cliente : this.clientes) {
             cliente.dadosFormatados();
         }
@@ -154,27 +152,14 @@ public class Biblioteca extends BaseClass
         Aluguel aluguel = new Aluguel(cliente, livro);
 
         this.alugueis.add(aluguel);
-        this.output("Aluguel de id: " + aluguel.idetificador() + " registrado com sucesso!");
+        System.out.println("Aluguel de id: " + aluguel.idetificador() + " registrado com sucesso!");
     }
 
     public Cliente buscarCliente(int cpf) throws Exception
     {
         int posicaoCliente;
         for (Cliente clienteCadastrado: this.clientes) {
-            if (clienteCadastrado.identificador().equals(cpf)) {
-                posicaoCliente = this.clientes.indexOf(clienteCadastrado);
-
-                return this.clientes.get(posicaoCliente);
-            }
-        }
-        throw new Exception("Cliente nao encontrado.");
-    }
-
-    public Buscavel buscar(int identificador)
-    {
-        int posicao;
-        for (Buscavel item: this.clientes) {
-            if (clienteCadastrado.cpf().equals(cpf)) {
+            if (clienteCadastrado.identificador() == cpf) {
                 posicaoCliente = this.clientes.indexOf(clienteCadastrado);
 
                 return this.clientes.get(posicaoCliente);
@@ -215,18 +200,18 @@ public class Biblioteca extends BaseClass
         Aluguel aluguel = this.buscarAluguel(id);
 
         if (!this.alugueis.contains(aluguel)) {
-            this.output("O aluguel nao pode ser removido pois ainda foi registrado e validado na biblioteca.");
+            System.out.println("O aluguel nao pode ser removido pois ainda foi registrado e validado na biblioteca.");
             return;
         }
 
         aluguel.encerrar();
 
-        this.output("Aluguel de id: " + aluguel.idetificador() + " finalizado.");
+        System.out.println("Aluguel de id: " + aluguel.idetificador() + " finalizado.");
     }
 
     public void listarTodosAlugueis()
     {
-        this.output("LISTA GERAL DE ALUGUEIS: \n");
+        System.out.println("LISTA GERAL DE ALUGUEIS: \n");
 
         for (Aluguel aluguel : this.alugueis) {
             aluguel.dadosFormatados();
@@ -315,7 +300,7 @@ public class Biblioteca extends BaseClass
     private boolean clienteJaCadastrado(int cpf)
     {
         for (Cliente clienteCadastrado : this.clientes) {
-            if (clienteCadastrado.identificador().equals(cpf)) {
+            if (clienteCadastrado.identificador() == cpf) {
                 return true;
             }
         }

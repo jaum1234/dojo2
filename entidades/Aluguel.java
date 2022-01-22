@@ -1,12 +1,9 @@
 package src.dojo2.entidades;
 
-import src.dojo2.BaseClass;
-import src.dojo2.interfaces.Buscavel;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Aluguel extends BaseClass implements Buscavel
+public class Aluguel
 {
     private static int id = 0;
     private int aluguelId;
@@ -68,22 +65,21 @@ public class Aluguel extends BaseClass implements Buscavel
         SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");
         String dataFormatada = formatador.format(this.data);
 
-        this.output("Id do aluguel" +
-                ": " + this.aluguelId);
-        this.output("Data de realizaçao do aluguel: " + dataFormatada + "\n");
+        System.out.println("Id do aluguel: " + this.aluguelId);
+        System.out.println("Data de realizaçao do aluguel: " + dataFormatada + "\n");
 
         if (this.emCurso) {
-            this.output("Status: em curso");
+            System.out.println("Status: em curso");
         } else {
-            this.output("Status: finalizado");
+            System.out.println("Status: finalizado");
         }
 
-        this.output("CLIENTE:");
+        System.out.println("CLIENTE:");
         this.cliente.dadosFormatados();
 
-        this.output("LIVRO:");
+        System.out.println("LIVRO:");
         this.livro.dadosFormatados();
 
-        this.output("----------------------------------");
+        System.out.println("----------------------------------");
     }
 }

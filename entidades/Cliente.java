@@ -1,18 +1,15 @@
 package src.dojo2.entidades;
 
-import src.dojo2.BaseClass;
-import src.dojo2.interfaces.Buscavel;
-
 import java.util.ArrayList;
 
-public class Cliente extends BaseClass implements Buscavel
+public class Cliente
 {
     private String nome;
-    private String cpf;
+    private int cpf;
     private ArrayList<Livro> alugueisEmCurso;
     private ArrayList<Livro> historicoLivrosAlugados;
 
-    public Cliente(String nome, String cpf)
+    public Cliente(String nome, int cpf)
     {
         this.nome = nome;
         this.cpf = cpf;
@@ -20,7 +17,7 @@ public class Cliente extends BaseClass implements Buscavel
         this.historicoLivrosAlugados = new ArrayList<Livro>();
     }
 
-    public String identificador()
+    public int identificador()
     {
         return cpf;
     }
@@ -93,8 +90,8 @@ public class Cliente extends BaseClass implements Buscavel
 
     public void dadosFormatados()
     {
-        this.output("CPF: " + this.cpf);
-        this.output("Nome: " + this.nome);
-        this.output("");
+        System.out.println("CPF: " + this.cpf);
+        System.out.println("Nome: " + this.nome);
+        System.out.println("");
     }
 }

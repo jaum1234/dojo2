@@ -7,14 +7,14 @@ public class Cliente
     private String nome;
     private int cpf;
     private ArrayList<Livro> alugueisEmCurso;
-    private ArrayList<Livro> historicoLivrosAlugados;
+    private ArrayList<Livro> ultimos3Alugueis;
 
     public Cliente(String nome, int cpf)
     {
         this.nome = nome;
         this.cpf = cpf;
         this.alugueisEmCurso = new ArrayList<Livro>();
-        this.historicoLivrosAlugados = new ArrayList<Livro>();
+        this.ultimos3Alugueis = new ArrayList<Livro>();
     }
 
     public int identificador()
@@ -35,7 +35,6 @@ public class Cliente
      */
     public void alugar(Livro livro) throws Exception
     {
-
         if (this.possuiMaisDe2AlugueisEmCurso()) {
             throw new Exception("Cliente só pode alugar 2 livros por vez");
         }
@@ -44,7 +43,11 @@ public class Cliente
             throw new Exception("O livro de id: " + livro.identificador() + " esta entre os ultimos 3 livros alugados pelo usuário.");
         }
 
-        this.historicoLivrosAlugados.add(livro);
+        if (this.ultimos3Alugueis.size() >= 3) {
+            this.ultimos3Alugueis.remove(0);
+        }
+
+        this.ultimos3Alugueis.add(livro);
         this.alugueisEmCurso.add(livro);
     }
 
@@ -55,23 +58,24 @@ public class Cliente
 
     private boolean estaEntreOsUltimos3livrosAlugados(Livro livro)
     {
-        if (this.historicoLivrosAlugados.size() < 3) {
-            for (Livro livroAlugado: this.historicoLivrosAlugados) {
-                if (livro.identificador() == livroAlugado.identificador()) {
-                    return true;
-                }
-            }
-        } else {
-            int antepenultimoLivro = this.historicoLivrosAlugados.size() - 3;
-            int ultimoLivro = this.historicoLivrosAlugados.size() - 1;
-
-            for (int i = antepenultimoLivro; i <= ultimoLivro; i++) {
-                if (this.historicoLivrosAlugados.get(i).identificador() == livro.identificador()) {
-                    return true;
-                }
-            }
-        }
-        return false;
+         return this.ultimos3Alugueis.contains(livro);
+        //if (this.ultimos3Alugueis.size() < 3) {
+        //    for (Livro livroAlugado: this.ultimos3Alugueis) {
+        //        if (livro.identificador() == livroAlugado.identificador()) {
+        //            return true;
+        //        }
+        //    }
+        //} else {
+        //    int antepenultimoLivro = this.ultimos3Alugueis.size() - 3;
+        //    int ultimoLivro = this.ultimos3Alugueis.size() - 1;
+        //
+        //    for (int i = antepenultimoLivro; i <= ultimoLivro; i++) {
+        //        if (this.ultimos3Alugueis.get(i).identificador() == livro.identificador()) {
+        //            return true;
+        //        }
+        //    }
+        //}
+        //return false;
     }
 
     /**
@@ -92,6 +96,7 @@ public class Cliente
     {
         System.out.println("CPF: " + this.cpf);
         System.out.println("Nome: " + this.nome);
-        System.out.println("");
+        System.out.println("----------------------------------");
+
     }
 }

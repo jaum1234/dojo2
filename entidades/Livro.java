@@ -56,7 +56,7 @@ public class Livro
         System.out.println("Autor: " + this.autor);
         System.out.println("Editora: " + this.editora);
         System.out.println("Data de publicaçao: " + this.dataPublicaçao);
-        System.out.println("");
+        System.out.println("----------------------------------");
     }
 }
 

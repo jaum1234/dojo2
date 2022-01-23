@@ -3,7 +3,9 @@ package src.dojo2.entidades;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Biblioteca
 {
@@ -28,12 +30,11 @@ public class Biblioteca
 
         System.out.println("Id: ");
         int id = scanner.nextInt();
+        scanner.nextLine();
 
         if (this.livroJaCadastrado(id)) {
             throw new Exception("Livro já cadastrado");
         }
-
-        scanner.nextLine();
 
         System.out.println("Título: ");
         String titulo = scanner.nextLine();
@@ -44,17 +45,14 @@ public class Biblioteca
         System.out.println("editora: ");
         String editora = scanner.nextLine();
 
-
-        System.out.println("Data de publicaçao: ");
+        System.out.println("Data de publicaçao: (dd-mm-yyyy)");
         String dataPublicacao = scanner.nextLine();
 
         Livro livro = new Livro(id, titulo, autor, editora, dataPublicacao);
 
-
         this.livros.add(livro);
         System.out.println("Livro de id: " + livro.identificador() + " cadastrado com sucesso!");
     }
-
     private boolean atingiuLimiteLivros()
     {
         return this.livros.size() >= 1000;
@@ -143,6 +141,7 @@ public class Biblioteca
             throw new Exception("Falha na locaçao. Cliente nao cadastrado.");
         }
 
+
         Cliente cliente = buscarCliente(cpf);
         Livro livro = buscarLivro(id);
 
@@ -153,43 +152,6 @@ public class Biblioteca
 
         this.alugueis.add(aluguel);
         System.out.println("Aluguel de id: " + aluguel.idetificador() + " registrado com sucesso!");
-    }
-
-    public Cliente buscarCliente(int cpf) throws Exception
-    {
-        int posicaoCliente;
-        for (Cliente clienteCadastrado: this.clientes) {
-            if (clienteCadastrado.identificador() == cpf) {
-                posicaoCliente = this.clientes.indexOf(clienteCadastrado);
-
-                return this.clientes.get(posicaoCliente);
-            }
-        }
-        throw new Exception("Cliente nao encontrado.");
-    }
-
-    public Livro buscarLivro(int id) throws Exception
-    {
-        int posicaoLivro;
-        for (Livro livroCadastrado: this.livros) {
-            if (livroCadastrado.identificador() == id) {
-                posicaoLivro = this.livros.indexOf(livroCadastrado);
-                return this.livros.get(posicaoLivro);
-            }
-        }
-        throw new Exception("Livro nao encontrado.");
-    }
-
-    public Aluguel buscarAluguel(int id) throws Exception
-    {
-        int posicaoAluguel;
-        for (Aluguel aluguelRegistrado: this.alugueis) {
-            if (aluguelRegistrado.idetificador() == id) {
-                posicaoAluguel = this.alugueis.indexOf(aluguelRegistrado);
-                return this.alugueis.get(posicaoAluguel);
-            }
-        }
-        throw new Exception("Aluguel nao encontrado.");
     }
 
     public void removerAluguel() throws Exception
@@ -218,40 +180,49 @@ public class Biblioteca
         }
     }
 
-    /**
-     *
-     * @param minData formato: dd-mm-yyyy
-     * @param maxData formato: dd-mm-yyyy
-     */
-    public void listarAlugueisPorData(String minData, String maxData) throws Exception
+    //public void listarAlugueisPorData() throws Exception
+    //{
+    //    System.out.println("Data mínima: (dd-mm-yyyy)");
+    //    String minData = scanner.nextLine();
+    //
+    //    System.out.println("Data máxima: (dd-mm-yyyy)");
+    //    String maxData = scanner.nextLine();
+    //
+    //    SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");
+    //
+    //    Date minDataCovertida = formatador.parse(minData);
+    //    Date maxDataConvertida = formatador.parse(maxData);
+    //
+    //    System.out.println("Alugueis listados entre " + minDataCovertida + " e " + maxDataConvertida);
+    //
+    //    for (Aluguel aluguel: this.alugueis) {
+    //        if (
+    //            (aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida))
+    //            ||
+    //            (aluguel.data().equals(minDataCovertida) && aluguel.data().equals(maxDataConvertida))
+    //        ) {
+    //            aluguel.dadosFormatados();
+    //        }
+    //    }
+    //}
+
+    public void listarAlugueisPorDataCliente() throws Exception
     {
-        SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");
 
-        Date minDataCovertida = formatador.parse(minData);
-        Date maxDataConvertida = formatador.parse(maxData);
+        System.out.println("Forneça o cpf do cliente: ");
 
-        System.out.println("Alugueis listados entre " + minDataCovertida + " e " + maxDataConvertida);
+        int cpf = scanner.nextInt();
+        scanner.nextLine();
 
-        for (Aluguel aluguel: this.alugueis) {
-            if (
-                (aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida))
-                ||
-                (aluguel.data().equals(minDataCovertida) && aluguel.data().equals(maxDataConvertida))
-            ) {
-                aluguel.dadosFormatados();
-            }
-        }
-    }
+        Cliente cliente;
 
-    /**
-     *
-     * @param minData dd-mm-yyyy
-     * @param maxData dd-mm-yyyy
-     * @param cliente
-     */
+        cliente = this.buscarCliente(cpf);
 
-    public void listarAlugueisPorDataCliente(String minData, String maxData, Cliente cliente) throws Exception
-    {
+        System.out.println("Data mínima: (dd-mm-yyyy)");
+        String minData = scanner.nextLine();
+
+        System.out.println("Data máxima: (dd-mm-yyyy)");
+        String maxData = scanner.nextLine();
 
         SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -270,15 +241,22 @@ public class Biblioteca
         }
     }
 
-
-    /**
-     *
-     * @param minData dd-mm-yyyy
-     * @param maxData dd-mm-yyyy
-     * @param livro
-     */
-    public void listarAlugueisPorDataLivro(String minData, String maxData, Livro livro) throws Exception
+    public void listarAlugueisPorDataLivro() throws Exception
     {
+        System.out.println("Forneça o id do livro: ");
+
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Livro livro;
+
+        livro = this.buscarLivro(id);
+
+        System.out.println("Data mínima: (dd-mm-yyyy)");
+        String minData = scanner.nextLine();
+
+        System.out.println("Data máxima: (dd-mm-yyyy)");
+        String maxData = scanner.nextLine();
 
         SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -297,10 +275,69 @@ public class Biblioteca
         }
     }
 
+    private Cliente buscarCliente(int cpf) throws Exception
+    {
+        List<Cliente> cliente = this.clientes.stream()
+                .filter(item -> item.identificador() == cpf).collect(Collectors.toList());
+
+        if (cliente.size() == 0) {
+            throw new Exception("Livro nao encontrado");
+        }
+        return cliente.get(0);
+        //int posicaoCliente;
+        //for (Cliente clienteCadastrado: this.clientes) {
+        //    if (clienteCadastrado.identificador() == cpf) {
+        //        posicaoCliente = this.clientes.indexOf(clienteCadastrado);
+        //
+        //        return this.clientes.get(posicaoCliente);
+        //    }
+        //}
+        //throw new Exception("Cliente nao encontrado.");
+    }
+
+    private Livro buscarLivro(int id) throws Exception
+    {
+        List<Livro> livro = this.livros.stream()
+                .filter(item -> item.identificador() == id).collect(Collectors.toList());
+
+        if (livro.size() == 0) {
+            throw new Exception("Livro nao encontrado");
+        }
+        return livro.get(0);
+        //int posicaoLivro;
+        //for (Livro livroCadastrado: this.livros) {
+        //    if (livroCadastrado.identificador() == id) {
+        //        posicaoLivro = this.livros.indexOf(livroCadastrado);
+        //        return this.livros.get(posicaoLivro);
+        //    }
+        //}
+        //throw new Exception("Livro nao encontrado.");
+    }
+
+    private Aluguel buscarAluguel(int id) throws Exception
+    {
+        List<Aluguel> aluguel = this.alugueis.stream()
+            .filter(item -> item.idetificador() == id).collect(Collectors.toList());
+
+        if (aluguel.size() == 0) {
+            throw new Exception("Aluguel nao encontrado");
+        }
+        return aluguel.get(0);
+        //int posicaoAluguel;
+        //for (Aluguel aluguelRegistrado: this.alugueis) {
+        //    if (aluguelRegistrado.idetificador() == id) {
+        //        posicaoAluguel = this.alugueis.indexOf(aluguelRegistrado);
+        //        return this.alugueis.get(posicaoAluguel);
+        //    }
+        //}
+        //throw new Exception("Aluguel nao encontrado.");
+    }
+
+
     private boolean clienteJaCadastrado(int cpf)
     {
-        for (Cliente clienteCadastrado : this.clientes) {
-            if (clienteCadastrado.identificador() == cpf) {
+        for (Cliente cliente : this.clientes) {
+            if (cliente.identificador() == cpf) {
                 return true;
             }
         }

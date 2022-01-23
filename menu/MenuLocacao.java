@@ -86,54 +86,25 @@ public class MenuLocacao extends Menu
 
     private static void filtradoPorDataCliente() throws Exception
     {
-        System.out.println("Forneça o cpf do cliente: ");
-        scanner.nextLine();
-        int cpf = scanner.nextInt();
-
-        Cliente cliente;
-
-        try {
-            cliente = biblioteca.buscarCliente(cpf);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            render();
-            return;
-        }
-
-        System.out.println("Data mínima: (dd-mm-yyyy)");
-        String minData = scanner.nextLine();
-
-        System.out.println("Data máxima: (dd-mm-yyyy)");
-        String maxData = scanner.nextLine();
-
-        biblioteca.listarAlugueisPorDataCliente(minData, maxData, cliente);
+       try {
+            biblioteca.listarAlugueisPorDataCliente();
+       } catch (Exception e) {
+           System.out.println(e.getMessage());
+           listaAlugueis();
+           return;
+       }
         MenuPrincipal.render();
     }
 
     private static void filtradoPorDataLivro() throws Exception
     {
-        System.out.println("Forneça o id do livro: ");
-        int id = scanner.nextInt();
-
-        Livro livro;
-
         try {
-            livro = biblioteca.buscarLivro(id);
+            biblioteca.listarAlugueisPorDataLivro();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            render();
+            listaAlugueis();
             return;
         }
-
-        scanner.nextLine();
-
-        System.out.println("Data mínima: (dd-mm-yyyy)");
-        String minData = scanner.nextLine();
-
-        System.out.println("Data máxima: (dd-mm-yyyy)");
-        String maxData = scanner.nextLine();
-
-        biblioteca.listarAlugueisPorDataLivro(minData, maxData, livro);
         MenuPrincipal.render();
     }
 

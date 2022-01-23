@@ -32,13 +32,16 @@ public class Aluguel
         return this.data;
     }
 
+    public Cliente cliente()
+    {
+        return this.cliente;
+    }
 
-    /**
-     * Método só deve ser chamado de dentro do método 'removerAluguel'
-     * na classe Biblioteca
-     *
-     * @see Biblioteca#removerAluguel()
-     */
+    public Livro livro()
+    {
+        return this.livro;
+    }
+
     public void encerrar() throws Exception
     {
         if (!this.emCurso) {
@@ -50,15 +53,6 @@ public class Aluguel
         this.emCurso = false;
     }
 
-    public Cliente cliente()
-    {
-        return this.cliente;
-    }
-
-    public Livro livro()
-    {
-        return this.livro;
-    }
 
     public void dadosFormatados()
     {

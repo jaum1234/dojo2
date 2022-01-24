@@ -275,26 +275,6 @@ public class Biblioteca
         }
     }
 
-    private Cliente buscarCliente(int cpf) throws Exception
-    {
-        List<Cliente> cliente = this.clientes.stream()
-                .filter(item -> item.identificador() == cpf).collect(Collectors.toList());
-
-        if (cliente.size() == 0) {
-            throw new Exception("Livro nao encontrado");
-        }
-        return cliente.get(0);
-        //int posicaoCliente;
-        //for (Cliente clienteCadastrado: this.clientes) {
-        //    if (clienteCadastrado.identificador() == cpf) {
-        //        posicaoCliente = this.clientes.indexOf(clienteCadastrado);
-        //
-        //        return this.clientes.get(posicaoCliente);
-        //    }
-        //}
-        //throw new Exception("Cliente nao encontrado.");
-    }
-
     private Livro buscarLivro(int id) throws Exception
     {
         List<Livro> livro = this.livros.stream()
@@ -312,6 +292,26 @@ public class Biblioteca
         //    }
         //}
         //throw new Exception("Livro nao encontrado.");
+    }
+
+    private Cliente buscarCliente(int cpf) throws Exception
+    {
+        List<Cliente> cliente = this.clientes.stream()
+                .filter(item -> item.identificador() == cpf).collect(Collectors.toList());
+
+        if (cliente.size() == 0) {
+            throw new Exception("Cliente nao encontrado");
+        }
+        return cliente.get(0);
+        //int posicaoCliente;
+        //for (Cliente clienteCadastrado: this.clientes) {
+        //    if (clienteCadastrado.identificador() == cpf) {
+        //        posicaoCliente = this.clientes.indexOf(clienteCadastrado);
+        //
+        //        return this.clientes.get(posicaoCliente);
+        //    }
+        //}
+        //throw new Exception("Cliente nao encontrado.");
     }
 
     private Aluguel buscarAluguel(int id) throws Exception

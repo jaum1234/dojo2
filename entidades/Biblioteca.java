@@ -180,32 +180,6 @@ public class Biblioteca
         }
     }
 
-    //public void listarAlugueisPorData() throws Exception
-    //{
-    //    System.out.println("Data mínima: (dd-mm-yyyy)");
-    //    String minData = scanner.nextLine();
-    //
-    //    System.out.println("Data máxima: (dd-mm-yyyy)");
-    //    String maxData = scanner.nextLine();
-    //
-    //    SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");
-    //
-    //    Date minDataCovertida = formatador.parse(minData);
-    //    Date maxDataConvertida = formatador.parse(maxData);
-    //
-    //    System.out.println("Alugueis listados entre " + minDataCovertida + " e " + maxDataConvertida);
-    //
-    //    for (Aluguel aluguel: this.alugueis) {
-    //        if (
-    //            (aluguel.data().after(minDataCovertida) && aluguel.data().before(maxDataConvertida))
-    //            ||
-    //            (aluguel.data().equals(minDataCovertida) && aluguel.data().equals(maxDataConvertida))
-    //        ) {
-    //            aluguel.dadosFormatados();
-    //        }
-    //    }
-    //}
-
     public void listarAlugueisPorDataCliente() throws Exception
     {
 
@@ -284,14 +258,6 @@ public class Biblioteca
             throw new Exception("Livro nao encontrado");
         }
         return livro.get(0);
-        //int posicaoLivro;
-        //for (Livro livroCadastrado: this.livros) {
-        //    if (livroCadastrado.identificador() == id) {
-        //        posicaoLivro = this.livros.indexOf(livroCadastrado);
-        //        return this.livros.get(posicaoLivro);
-        //    }
-        //}
-        //throw new Exception("Livro nao encontrado.");
     }
 
     private Cliente buscarCliente(int cpf) throws Exception
@@ -303,15 +269,7 @@ public class Biblioteca
             throw new Exception("Cliente nao encontrado");
         }
         return cliente.get(0);
-        //int posicaoCliente;
-        //for (Cliente clienteCadastrado: this.clientes) {
-        //    if (clienteCadastrado.identificador() == cpf) {
-        //        posicaoCliente = this.clientes.indexOf(clienteCadastrado);
-        //
-        //        return this.clientes.get(posicaoCliente);
-        //    }
-        //}
-        //throw new Exception("Cliente nao encontrado.");
+
     }
 
     private Aluguel buscarAluguel(int id) throws Exception
@@ -323,14 +281,7 @@ public class Biblioteca
             throw new Exception("Aluguel nao encontrado");
         }
         return aluguel.get(0);
-        //int posicaoAluguel;
-        //for (Aluguel aluguelRegistrado: this.alugueis) {
-        //    if (aluguelRegistrado.idetificador() == id) {
-        //        posicaoAluguel = this.alugueis.indexOf(aluguelRegistrado);
-        //        return this.alugueis.get(posicaoAluguel);
-        //    }
-        //}
-        //throw new Exception("Aluguel nao encontrado.");
+
     }
 
 

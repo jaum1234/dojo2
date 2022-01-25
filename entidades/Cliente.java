@@ -59,23 +59,7 @@ public class Cliente
     private boolean estaEntreOsUltimos3livrosAlugados(Livro livro)
     {
          return this.ultimos3Alugueis.contains(livro);
-        //if (this.ultimos3Alugueis.size() < 3) {
-        //    for (Livro livroAlugado: this.ultimos3Alugueis) {
-        //        if (livro.identificador() == livroAlugado.identificador()) {
-        //            return true;
-        //        }
-        //    }
-        //} else {
-        //    int antepenultimoLivro = this.ultimos3Alugueis.size() - 3;
-        //    int ultimoLivro = this.ultimos3Alugueis.size() - 1;
-        //
-        //    for (int i = antepenultimoLivro; i <= ultimoLivro; i++) {
-        //        if (this.ultimos3Alugueis.get(i).identificador() == livro.identificador()) {
-        //            return true;
-        //        }
-        //    }
-        //}
-        //return false;
+
     }
 
     /**
